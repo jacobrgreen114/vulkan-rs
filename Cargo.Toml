@@ -1,0 +1,23 @@
+[package]
+name = "vulkan"
+version = "0.0.1-alpha.0"
+description = "Safe vulkan wrapper"
+authors = ["Jacob R. Green"]
+edition = "2021"
+license-file = "LICENSE"
+build = "build/build.rs"
+
+[dependencies]
+thiserror = "1.0.29"
+vulkan-sys = { version = "0.0.1-alpha.0", path = "../vulkan-sys" }
+static_assertions = "1.1.0"
+windows = { version = "0.56.0", features = ["Win32_Foundation"] }
+bitfield = "0.15.0"
+bitflags = "2.5.0"
+
+[build-dependencies]
+bindgen = "0.69.4"
+
+[dev-dependencies]
+glfw = "0.55.0"
+
