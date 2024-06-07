@@ -13,7 +13,7 @@ use crate::macros::*;
    Application Info
 */
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     ApplicationInfo,
     VkApplicationInfo,
     VK_STRUCTURE_TYPE_APPLICATION_INFO
@@ -40,7 +40,7 @@ impl<'a> ApplicationInfo<'a> {
    Instance Create Info
 */
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     InstanceCreateInfo,
     VkInstanceCreateInfo,
     VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO

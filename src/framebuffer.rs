@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(Framebuffer, VkFramebuffer);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     FramebufferCreateInfo,
     VkFramebufferCreateInfo,
     VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO

@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(ShaderModule, VkShaderModule);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     ShaderModuleCreateInfo,
     VkShaderModuleCreateInfo,
     VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO

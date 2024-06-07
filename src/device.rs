@@ -10,7 +10,7 @@ use vulkan_sys::*;
    Device Queue Create Info
 */
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     DeviceQueueCreateInfo,
     VkDeviceQueueCreateInfo,
     VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO
@@ -35,7 +35,7 @@ impl<'a> DeviceQueueCreateInfo<'a> {
    Device Create Info
 */
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     DeviceCreateInfo,
     VkDeviceCreateInfo,
     VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO
@@ -72,6 +72,7 @@ impl<'a> DeviceCreateInfo<'a> {
 vulkan_handle!(Device, VkDevice);
 
 impl Device {
+    #[inline]
     pub fn create(
         physical_device: PhysicalDevice,
         create_info: &DeviceCreateInfo,
@@ -86,6 +87,7 @@ impl Device {
         .map(Self::from_raw)
     }
 
+    #[inline]
     pub fn destroy(&self, allocator: Option<&AllocationCallbacks>) {
         destroy_device(
             vkDestroyDevice,
@@ -94,6 +96,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn get_device_queue(&self, queue_family_index: u32, queue_index: u32) -> Queue {
         Queue::from_raw(get_device_queue(
             vkGetDeviceQueue,
@@ -103,6 +106,7 @@ impl Device {
         ))
     }
 
+    #[inline]
     pub fn create_swapchain_khr(
         &self,
         create_info: &SwapchainCreateInfoKHR,
@@ -117,6 +121,7 @@ impl Device {
         .map(SwapchainKHR::from_raw)
     }
 
+    #[inline]
     pub fn destroy_swapchain_khr(
         &self,
         swapchain: SwapchainKHR,
@@ -130,6 +135,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn get_swapchain_images_khr(
         &self,
         swapchain: SwapchainKHR,
@@ -138,6 +144,7 @@ impl Device {
             .map(|images| unsafe { transmute(images) })
     }
 
+    #[inline]
     pub fn acquire_next_image_khr(
         &self,
         swapchain: SwapchainKHR,
@@ -155,6 +162,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn create_image_view(
         &self,
         create_info: &ImageViewCreateInfo,
@@ -169,6 +177,7 @@ impl Device {
         .map(ImageView::from_raw)
     }
 
+    #[inline]
     pub fn destroy_image_view(
         &self,
         image_view: ImageView,
@@ -182,6 +191,32 @@ impl Device {
         )
     }
 
+    #[inline]
+    pub fn create_sampler(
+        &self,
+        create_info: &SamplerCreateInfo,
+        allocator: Option<&AllocationCallbacks>,
+    ) -> vulkan_sys::wrapper::Result<Sampler> {
+        create_sampler(
+            vkCreateSampler,
+            self.as_raw(),
+            create_info.as_raw(),
+            allocator.map(AllocationCallbacks::as_raw),
+        )
+        .map(Sampler::from_raw)
+    }
+
+    #[inline]
+    pub fn destroy_sampler(&self, sampler: Sampler, allocator: Option<&AllocationCallbacks>) {
+        destroy_sampler(
+            vkDestroySampler,
+            self.as_raw(),
+            sampler.as_raw(),
+            allocator.map(AllocationCallbacks::as_raw),
+        )
+    }
+
+    #[inline]
     pub fn create_render_pass(
         &self,
         create_info: &RenderPassCreateInfo,
@@ -196,6 +231,7 @@ impl Device {
         .map(RenderPass::from_raw)
     }
 
+    #[inline]
     pub fn destroy_render_pass(
         &self,
         render_pass: RenderPass,
@@ -209,6 +245,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn create_framebuffer(
         &self,
         create_info: &FramebufferCreateInfo,
@@ -223,6 +260,7 @@ impl Device {
         .map(Framebuffer::from_raw)
     }
 
+    #[inline]
     pub fn destroy_framebuffer(
         &self,
         framebuffer: Framebuffer,
@@ -236,6 +274,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn create_descriptor_set_layout(
         &self,
         create_info: &DescriptorSetLayoutCreateInfo,
@@ -250,6 +289,7 @@ impl Device {
         .map(DescriptorSetLayout::from_raw)
     }
 
+    #[inline]
     pub fn destroy_descriptor_set_layout(
         &self,
         descriptor_set_layout: DescriptorSetLayout,
@@ -263,6 +303,81 @@ impl Device {
         )
     }
 
+    #[inline]
+    pub fn create_descriptor_pool(
+        &self,
+        create_info: &DescriptorPoolCreateInfo,
+        allocator: Option<&AllocationCallbacks>,
+    ) -> vulkan_sys::wrapper::Result<DescriptorPool> {
+        create_descriptor_pool(
+            vkCreateDescriptorPool,
+            self.as_raw(),
+            create_info.as_raw(),
+            allocator.map(AllocationCallbacks::as_raw),
+        )
+        .map(DescriptorPool::from_raw)
+    }
+
+    #[inline]
+    pub fn destroy_descriptor_pool(
+        &self,
+        descriptor_pool: DescriptorPool,
+        allocator: Option<&AllocationCallbacks>,
+    ) {
+        destroy_descriptor_pool(
+            vkDestroyDescriptorPool,
+            self.as_raw(),
+            descriptor_pool.as_raw(),
+            allocator.map(AllocationCallbacks::as_raw),
+        )
+    }
+
+    #[inline]
+    pub fn allocate_descriptor_sets(
+        &self,
+        allocate_info: &DescriptorSetAllocateInfo,
+    ) -> vulkan_sys::wrapper::Result<Vec<DescriptorSet>> {
+        allocate_descriptor_sets(
+            vkAllocateDescriptorSets,
+            self.as_raw(),
+            allocate_info.as_raw(),
+        )
+        .map(|sets| sets.into_iter().map(DescriptorSet::from_raw).collect())
+    }
+
+    #[inline]
+    pub fn free_descriptor_sets(
+        &self,
+        descriptor_pool: DescriptorPool,
+        descriptor_sets: &[DescriptorSet],
+    ) -> vulkan_sys::wrapper::Result<()> {
+        unsafe {
+            free_descriptor_sets(
+                vkFreeDescriptorSets,
+                self.as_raw(),
+                descriptor_pool.as_raw(),
+                transmute(descriptor_sets),
+            )
+        }
+    }
+
+    #[inline]
+    pub fn update_descriptor_sets(
+        &self,
+        descriptor_writes: &[WriteDescriptorSet],
+        descriptor_copies: &[CopyDescriptorSet],
+    ) {
+        unsafe {
+            update_descriptor_sets(
+                vkUpdateDescriptorSets,
+                self.as_raw(),
+                transmute(descriptor_writes),
+                transmute(descriptor_copies),
+            )
+        }
+    }
+
+    #[inline]
     pub fn create_pipeline_layout(
         &self,
         create_info: &PipelineLayoutCreateInfo,
@@ -277,6 +392,7 @@ impl Device {
         .map(PipelineLayout::from_raw)
     }
 
+    #[inline]
     pub fn destroy_pipeline_layout(
         &self,
         pipeline_layout: PipelineLayout,
@@ -290,6 +406,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn create_shader_module(
         &self,
         create_info: &ShaderModuleCreateInfo,
@@ -304,6 +421,7 @@ impl Device {
         .map(ShaderModule::from_raw)
     }
 
+    #[inline]
     pub fn destroy_shader_module(
         &self,
         shader_module: ShaderModule,
@@ -317,6 +435,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn create_graphics_pipelines(
         &self,
         pipeline_cache: Option<PipelineCache>,
@@ -336,6 +455,7 @@ impl Device {
         }
     }
 
+    #[inline]
     pub fn destroy_pipeline(&self, pipeline: Pipeline, allocator: Option<&AllocationCallbacks>) {
         unsafe {
             transmute(destroy_pipeline(
@@ -347,6 +467,7 @@ impl Device {
         }
     }
 
+    #[inline]
     pub fn create_command_pool(
         &self,
         create_info: &CommandPoolCreateInfo,
@@ -362,6 +483,7 @@ impl Device {
         }
     }
 
+    #[inline]
     pub fn destroy_command_pool(
         &self,
         command_pool: CommandPool,
@@ -375,6 +497,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn allocate_command_buffers(
         &self,
         allocate_info: &CommandBufferAllocateInfo,
@@ -387,6 +510,7 @@ impl Device {
         .map(|buffers| buffers.into_iter().map(CommandBuffer::from_raw).collect())
     }
 
+    #[inline]
     pub fn create_fence(
         &self,
         create_info: &FenceCreateInfo,
@@ -401,6 +525,7 @@ impl Device {
         .map(Fence::from_raw)
     }
 
+    #[inline]
     pub fn destroy_fence(&self, fence: Fence, allocator: Option<&AllocationCallbacks>) {
         destroy_fence(
             vkDestroyFence,
@@ -410,6 +535,7 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn wait_for_fences(
         &self,
         fences: &[Fence],
@@ -425,10 +551,12 @@ impl Device {
         )
     }
 
+    #[inline]
     pub fn reset_fences(&self, fences: &[Fence]) -> vulkan_sys::wrapper::Result<()> {
         reset_fences(vkResetFences, self.as_raw(), unsafe { transmute(fences) })
     }
 
+    #[inline]
     pub fn create_semaphore(
         &self,
         create_info: &SemaphoreCreateInfo,
@@ -443,6 +571,7 @@ impl Device {
         .map(Semaphore::from_raw)
     }
 
+    #[inline]
     pub fn destroy_semaphore(&self, semaphore: Semaphore, allocator: Option<&AllocationCallbacks>) {
         destroy_semaphore(
             vkDestroySemaphore,

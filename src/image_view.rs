@@ -46,6 +46,24 @@ impl ImageViewCreateInfo {
 vulkan_struct!(ImageSubresourceRange, VkImageSubresourceRange);
 
 impl ImageSubresourceRange {
+    pub const fn new_init(
+        aspect_mask: ImageAspectFlags,
+        base_mip_level: u32,
+        level_count: u32,
+        base_array_layer: u32,
+        layer_count: u32,
+    ) -> Self {
+        Self {
+            inner: VkImageSubresourceRange {
+                aspectMask: aspect_mask.bits(),
+                baseMipLevel: base_mip_level,
+                levelCount: level_count,
+                baseArrayLayer: base_array_layer,
+                layerCount: layer_count,
+            },
+        }
+    }
+
     pub const fn with_aspect_mask(mut self, aspect_mask: ImageAspectFlags) -> Self {
         self.inner.aspectMask = aspect_mask.bits();
         self

@@ -7,12 +7,12 @@ use vulkan_sys::*;
 
 use bitflags::bitflags;
 
-bitflags! {
-    pub struct CommandPoolCreateFlags: u32 {
-        const TRANSIENT = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT as u32;
-        const RESET_COMMAND_BUFFER = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT as u32;
-    }
-}
+// bitflags! {
+//     pub struct CommandPoolCreateFlags: u32 {
+//         const TRANSIENT = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT as u32;
+//         const RESET_COMMAND_BUFFER = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT as u32;
+//     }
+// }
 
 vulkan_create_info!(
     CommandPoolCreateInfo,
@@ -21,7 +21,7 @@ vulkan_create_info!(
 );
 
 impl crate::CommandPoolCreateInfo {
-    pub const fn with_flags(mut self, flags: crate::CommandPoolCreateFlags) -> Self {
+    pub const fn with_flags(mut self, flags: CommandPoolCreateFlags) -> Self {
         self.inner.flags = flags.bits();
         self
     }

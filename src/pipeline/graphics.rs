@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 use super::*;
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineShaderStageCreateInfo,
     VkPipelineShaderStageCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO
@@ -86,7 +86,7 @@ impl VertexInputAttributeDescription {
     }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineVertexInputStateCreateInfo,
     VkPipelineVertexInputStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
@@ -130,13 +130,13 @@ impl PipelineInputAssemblyStateCreateInfo {
     }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineTessellationStateCreateInfo,
     VkPipelineTessellationStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO
 );
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineViewportStateCreateInfo,
     VkPipelineViewportStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO
@@ -235,7 +235,7 @@ impl PipelineRasterizationStateCreateInfo {
         .with_line_width(1.0);
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineMultisampleStateCreateInfo,
     VkPipelineMultisampleStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
@@ -394,7 +394,7 @@ impl PipelineColorBlendAttachmentState {
         .with_color_write_mask(ColorComponentFlags::all());
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineColorBlendStateCreateInfo,
     VkPipelineColorBlendStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
@@ -426,7 +426,7 @@ impl<'a> PipelineColorBlendStateCreateInfo<'a> {
     }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineDynamicStateCreateInfo,
     VkPipelineDynamicStateCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO
@@ -440,7 +440,7 @@ impl<'a> PipelineDynamicStateCreateInfo<'a> {
     }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     GraphicsPipelineCreateInfo,
     VkGraphicsPipelineCreateInfo,
     VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO

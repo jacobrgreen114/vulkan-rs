@@ -36,6 +36,9 @@ pub use image::*;
 mod image_view;
 pub use image_view::*;
 
+mod sampler;
+pub use sampler::*;
+
 mod render_pass;
 pub use render_pass::*;
 
@@ -85,6 +88,9 @@ pub type DeviceSize = VkDeviceSize;
 
 pub type ClearValue = VkClearValue;
 pub type ClearColorValue = VkClearColorValue;
+pub type ClearDepthStencilValue = VkClearDepthStencilValue;
+
+pub const WHOLE_SIZE: DeviceSize = VK_WHOLE_SIZE as DeviceSize;
 
 /*
    Allocation Callbacks

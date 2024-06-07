@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(Buffer, VkBuffer);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     BufferCreateInfo,
     VkBufferCreateInfo,
     VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO

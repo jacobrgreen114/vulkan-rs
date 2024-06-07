@@ -11,7 +11,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(SwapchainKHR, VkSwapchainKHR);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     SwapchainCreateInfoKHR,
     VkSwapchainCreateInfoKHR,
     VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR

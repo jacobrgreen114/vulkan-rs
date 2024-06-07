@@ -57,7 +57,7 @@ macro_rules! vulkan_handle {
     };
 }
 
-macro_rules! vulkan_create_info_referential {
+macro_rules! vulkan_create_info_lifetime {
     ($name:tt, $ty:tt, $stype:expr) => {
         #[derive(Clone)]
         pub struct $name<'a> {
@@ -188,6 +188,34 @@ macro_rules! vulkan_struct {
     };
 }
 
+macro_rules! vulkan_struct_no_new {
+    ($name:tt, $ty:tt) => {
+        pub struct $name {
+            inner: $ty,
+        }
+
+        impl $name {
+            pub const fn from_raw(inner: $ty) -> Self {
+                Self { inner }
+            }
+
+            pub const fn as_raw(&self) -> &$ty {
+                &self.inner
+            }
+        }
+
+        impl std::fmt::Debug for $name {
+            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                self.inner.fmt(f)
+            }
+        }
+
+        assert_eq_size!($name, $ty);
+    };
+}
+
+pub(crate) use vulkan_struct_no_new;
+
 macro_rules! vulkan_struct_custom {
     ($name:tt, $ty:tt) => {
         impl $name {
@@ -255,7 +283,7 @@ macro_rules! vulkan_struct_lifetime {
 }
 
 pub(crate) use vulkan_create_info;
-pub(crate) use vulkan_create_info_referential;
+pub(crate) use vulkan_create_info_lifetime;
 pub(crate) use vulkan_handle;
 pub(crate) use vulkan_struct;
 pub(crate) use vulkan_struct_custom;

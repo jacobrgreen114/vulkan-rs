@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(Queue, VkQueue);
 
-vulkan_create_info_referential!(SubmitInfo, VkSubmitInfo, VK_STRUCTURE_TYPE_SUBMIT_INFO);
+vulkan_create_info_lifetime!(SubmitInfo, VkSubmitInfo, VK_STRUCTURE_TYPE_SUBMIT_INFO);
 
 impl<'a> SubmitInfo<'a> {
     pub const fn with_wait_semaphores(mut self, wait_semaphores: &'a [Semaphore]) -> Self {
@@ -37,7 +37,7 @@ impl<'a> SubmitInfo<'a> {
     }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PresentInfoKHR,
     VkPresentInfoKHR,
     VK_STRUCTURE_TYPE_PRESENT_INFO_KHR

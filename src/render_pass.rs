@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(RenderPass, VkRenderPass);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     RenderPassCreateInfo,
     VkRenderPassCreateInfo,
     VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO

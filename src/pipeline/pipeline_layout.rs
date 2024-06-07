@@ -7,7 +7,7 @@ use vulkan_sys::*;
 
 vulkan_handle!(PipelineLayout, VkPipelineLayout);
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     PipelineLayoutCreateInfo,
     VkPipelineLayoutCreateInfo,
     VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO

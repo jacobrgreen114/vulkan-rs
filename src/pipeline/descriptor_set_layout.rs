@@ -54,7 +54,7 @@ impl<'a> DescriptorSetLayoutBinding<'a> {
     // }
 }
 
-vulkan_create_info_referential!(
+vulkan_create_info_lifetime!(
     DescriptorSetLayoutCreateInfo,
     VkDescriptorSetLayoutCreateInfo,
     VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO
